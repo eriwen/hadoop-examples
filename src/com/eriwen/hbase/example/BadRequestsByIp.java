@@ -79,7 +79,7 @@ public class BadRequestsByIp extends Configured implements Tool {
 	/**
 	 * Set MapReduce job parameters, classes, and other configurations.
 	 */
-	public int run(String[] args) throws Exception {
+	public int run(final String[] args) throws Exception {
 		Job job = new Job();
 		job.setJobName("BadRequestsByIp");
 		job.setJarByClass(BadRequestsByIp.class);
