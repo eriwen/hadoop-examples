@@ -13,7 +13,7 @@ import org.apache.hadoop.util.*;
 
 public class WordCount extends Configured implements Tool {
 	public static class WordCountMapper extends Mapper<Object, Text, Text, IntWritable> {
-		private final Set<String> interestingWordsSet = new HashSet<String>();
+		final Set<String> interestingWordsSet = new HashSet<String>();
 		//Construct the Text only once and reuse
 		private final Text mapKeyText = new Text();
 		private static final IntWritable ONE = new IntWritable(1);
@@ -56,6 +56,7 @@ public class WordCount extends Configured implements Tool {
 		@Override
 		public void map(final Object key, final Text value, final Context context)
 		  		throws IOException, InterruptedException {
+			// Split String into words, naively
 			StringTokenizer tokenizer = new StringTokenizer(value.toString());
 			while (tokenizer.hasMoreTokens()) {
 				if (interestingWordsSet.contains(value)) {
@@ -81,6 +82,7 @@ public class WordCount extends Configured implements Tool {
 		@Override
 		public void reduce(final Text key, final Iterable<IntWritable> records,
 				final Context context) throws IOException, InterruptedException {
+
 			int sum = 0;
 			for (IntWritable record : records) {
 				sum += record.get();
